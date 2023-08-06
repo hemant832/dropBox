@@ -1,14 +1,14 @@
 package com.typeface.dropBox.payload;
 
-public class UploadFileResponse {
+public class FileResponse {
     private String fileName;
-    private String fileDownloadUri;
+    private String fileUrl;
     private String fileType;
     private long size;
 
-    public UploadFileResponse(String fileName, String fileDownloadUri, String fileType, long size) {
+    public FileResponse(String fileName, String fileUrl, String fileType, long size) {
         this.fileName = fileName;
-        this.fileDownloadUri = fileDownloadUri;
+        this.fileUrl = fileUrl;
         this.fileType = fileType;
         this.size = size;
     }
@@ -22,11 +22,11 @@ public class UploadFileResponse {
     }
 
     public String getFileDownloadUri() {
-        return fileDownloadUri;
+        return fileUrl;
     }
 
     public void setFileDownloadUri(String fileDownloadUri) {
-        this.fileDownloadUri = fileDownloadUri;
+        this.fileUrl = fileDownloadUri;
     }
 
     public String getFileType() {

@@ -1,8 +1,7 @@
 package com.typeface.dropBox.service;
-
 import com.typeface.dropBox.exception.FileStorageException;
-import com.typeface.dropBox.exception.MyFileNotFoundException;
-import com.typeface.dropBox.domain.FileStorageProperties;
+import com.typeface.dropBox.exception.FileNotFoundException;
+import com.typeface.dropBox.domain.FileStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -21,7 +20,7 @@ public class FileStorageService {
     private final Path fileStorageLocation;
 
     @Autowired
-    public FileStorageService(FileStorageProperties fileStorageProperties) {
+    public FileStorageService(FileStorage fileStorageProperties) {
         this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir())
                 .toAbsolutePath().normalize();
 
@@ -55,7 +54,7 @@ public class FileStorageService {
         }
     }
 
-    public Resource loadFileAsResource(String userId, String fileName) {
+    public Resource loadFile(String userId, String fileName) {
         try {
             Path userDirectory = this.fileStorageLocation.resolve(userId);
             Path filePath = userDirectory.resolve(fileName).normalize();
@@ -63,10 +62,10 @@ public class FileStorageService {
             if(resource.exists()) {
                 return resource;
             } else {
-                throw new MyFileNotFoundException("File not found " + fileName);
+                throw new FileNotFoundException("File not found " + fileName);
             }
         } catch (MalformedURLException ex) {
-            throw new MyFileNotFoundException("File not found " + fileName, ex);
+            throw new FileNotFoundException("File not found " + fileName, ex);
         }
     }
 

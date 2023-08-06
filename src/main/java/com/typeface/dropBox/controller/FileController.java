@@ -1,6 +1,6 @@
 package com.typeface.dropBox.controller;
 
-import com.typeface.dropBox.payload.UploadFileResponse;
+import com.typeface.dropBox.payload.FileResponse;
 import com.typeface.dropBox.service.FileStorageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,11 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -28,7 +24,7 @@ public class FileController {
     private FileStorageService fileStorageService;
 
     @PostMapping("/uploadFile/{userId}/")
-    public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file, @PathVariable String userId) {
+    public FileResponse uploadFile(@RequestParam("file") MultipartFile file, @PathVariable String userId) {
         String fileName = fileStorageService.storeFile(file, userId);
 
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -36,14 +32,14 @@ public class FileController {
                 .path(fileName)
                 .toUriString();
 
-        return new UploadFileResponse(fileName, fileDownloadUri,
+        return new FileResponse(fileName, fileDownloadUri,
                 file.getContentType(), file.getSize());
     }
 
     @GetMapping("/downloadFile/{userId}/{fileName:.+}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String userId, @PathVariable String fileName) {
         // Load file as Resource
-        Resource resource = fileStorageService.loadFileAsResource(userId, fileName);
+        Resource resource = fileStorageService.loadFile(userId, fileName);
 
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType("application/file"))

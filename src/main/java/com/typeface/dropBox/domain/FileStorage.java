@@ -4,7 +4,7 @@ package com.typeface.dropBox.domain;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "file")
-public class FileStorageProperties {
+public class FileStorage {
     private String uploadDir;
 
     public String getUploadDir() {

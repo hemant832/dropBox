@@ -1,13 +1,13 @@
 package com.typeface.dropBox;
 
-import com.typeface.dropBox.domain.FileStorageProperties;
+import com.typeface.dropBox.domain.FileStorage;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 @SpringBootApplication
 @EnableConfigurationProperties({
-		FileStorageProperties.class
+		FileStorage.class
 })
 public class DropBoxApplication {
 
